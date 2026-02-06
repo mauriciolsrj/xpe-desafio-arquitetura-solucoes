@@ -1,0 +1,109 @@
+graph TD
+    subgraph "Normal Operation"
+        Normal["✅ All Zones Healthy<br/>Zone A, B, C Running<br/>3-6 Instances Active<br/>Primary DB: us-central1"]
+        
+        GLB1["Global Load Balancer<br/>Distributing Traffic"]
+        MIG1["MIG with 3+ Instances<br/>Across 3 Zones"]
+        DB1["Primary SQL<br/>Accepting Writes"]
+        
+        Normal --> GLB1
+        GLB1 --> MIG1
+        MIG1 --> DB1
+    end
+
+    Normal -->|Zone Failure| Failure
+
+    subgraph "Zone Failure Scenario"
+        Failure["⚠️ Zone A Becomes Unavailable<br/>(Network Partition / Hardware Failure)"]
+        
+        Detection["Health Check Detects Failure<br/>Load Balancer stops sending<br/>traffic to Zone A"]
+        
+        ZoneB_Active["Zone B: Active<br/>2+ Instances Running"]
+        ZoneC_Active["Zone C: Active<br/>2+ Instances Running"]
+        
+        Traffic_Redirect["Traffic Redirected to<br/>Zones B & C<br/>(No traffic loss)"]
+        
+        Failure --> Detection
+        Detection --> Traffic_Redirect
+        Traffic_Redirect --> ZoneB_Active
+        Traffic_Redirect --> ZoneC_Active
+    end
+
+    Failure -->|Autoscaling Triggered| Scaling
+
+    subgraph "Autoscaling Response"
+        Scaling["⚡ Autoscaler Detects<br/>Reduced Capacity"]
+        
+        Scale_Up["Scale Up Action:<br/>Add Instances in Zone B or C<br/>Target: Return to min 3 instances"]
+        
+        New_Instances["🚀 New Instances Launch<br/>in Healthy Zones<br/>(Ubuntu 22.04 + Startup Script)"]
+        
+        Health_Check_New["Health Checks Pass<br/>New Instances Join MIG"]
+        
+        Capacity_Restored["✅ Capacity Restored<br/>Back to Target Count"]
+        
+        Scaling --> Scale_Up
+        Scale_Up --> New_Instances
+        New_Instances --> Health_Check_New
+        Health_Check_New --> Capacity_Restored
+    end
+
+    Scaling -->|Database Layer| DB_Failover
+
+    subgraph "Database Resilience"
+        DB_Failover["🗄️ Cloud SQL High Availability<br/>Regional HA Enabled"]
+        
+        DB_Standby["Standby Instance<br/>(Same Zone or Alternate)<br/>Synchronized"]
+        
+        DB_Monitoring["Continuous Replication<br/>RPO: Near Zero"]
+        
+        DB_Failover --> DB_Standby
+        DB_Standby --> DB_Monitoring
+        
+        DB_Check["If Primary Fails:<br/>Automatic Failover<br/>Standby → Primary"]
+        DB_Monitoring --> DB_Check
+        
+        DR_Replica["Cross-Region Replica<br/>(us-east1)<br/>For Manual DR if needed"]
+        DB_Check --> DR_Replica
+    end
+
+    Capacity_Restored -->|Zone Recovery| Recovery
+
+    subgraph "Zone Recovery"
+        Recovery["🔧 Zone A Recovers<br/>Network/Hardware Restored<br/>Instances Boot Up"]
+        
+        Rejoin["Recovered Instances<br/>Pass Health Checks<br/>Rejoin MIG"]
+        
+        Scale_Down["Autoscaler Detects<br/>Excess Capacity"]
+        
+        Remove_Older["Remove Older Instances<br/>(Scale-in Control<br/>1 instance / 10 minutes)"]
+        
+        Back_Normal["✅ Return to Normal State<br/>Balanced Across 3 Zones<br/>3-6 Instances"]
+        
+        Recovery --> Rejoin
+        Rejoin --> Scale_Down
+        Scale_Down --> Remove_Older
+        Remove_Older --> Back_Normal
+    end
+
+    Back_Normal -->|Stabilized| Final["System Stable<br/>Full Capacity Restored<br/>No Data Loss"]
+
+    subgraph "User Experience During Failure"
+        UX1["Users Connected to Zone B/C<br/>Experience: No Interruption"]
+        UX2["New Requests Routed to<br/>Healthy Zones<br/>Transparent Failover"]
+        UX3["SLIs Maintained:<br/>P99 Latency < 500ms<br/>Error Rate < 1%"]
+        
+        ZoneB_Active --> UX1
+        ZoneC_Active --> UX2
+        Traffic_Redirect --> UX3
+    end
+
+    style Normal fill:#4CAF50,stroke:#2E7D32,color:#fff
+    style Failure fill:#F44336,stroke:#C62828,color:#fff
+    style Scaling fill:#2196F3,stroke:#1565C0,color:#fff
+    style DB_Failover fill:#FF9800,stroke:#E65100,color:#fff
+    style Recovery fill:#9C27B0,stroke:#6A1B9A,color:#fff
+    style Final fill:#4CAF50,stroke:#2E7D32,color:#fff
+    style UX1 fill:#81C784,stroke:#388E3C,color:#000
+    style UX2 fill:#81C784,stroke:#388E3C,color:#000
+    style UX3 fill:#81C784,stroke:#388E3C,color:#000

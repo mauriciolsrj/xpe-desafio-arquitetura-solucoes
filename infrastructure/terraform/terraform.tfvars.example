@@ -1,0 +1,33 @@
+# Example Terraform Variables File
+# Copy this file to terraform.tfvars and fill in your actual values
+
+project_id = "your-gcp-project-id"
+
+primary_region = "us-central1"
+dr_region      = "us-east1"
+
+zones = ["us-central1-a", "us-central1-b", "us-central1-c"]
+
+environment = "production"
+app_name    = "ecommerce"
+vpc_name    = "ecommerce-vpc"
+
+subnet_cidr = "10.0.1.0/24"
+
+machine_type = "e2-standard-2"
+
+min_instances             = 3
+max_instances             = 6
+target_cpu_utilization    = 0.70
+
+db_instance_name = "ecommerce-postgres-primary"
+db_version       = "15"
+db_tier          = "db-custom-4-16384"
+db_backup_location = "us"
+
+labels = {
+  environment = "production"
+  app         = "ecommerce"
+  managed_by  = "terraform"
+  cost_center = "engineering"
+}

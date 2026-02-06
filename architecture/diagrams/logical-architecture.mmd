@@ -1,0 +1,71 @@
+graph TB
+    subgraph "End Users"
+        Users["👥 Users / Clients"]
+    end
+
+    Users -->|HTTPS Requests| GLB["🌐 Global External<br/>Application Load Balancer<br/>(130.211.0.0/22, 35.191.0.0/16)"]
+
+    GLB -->|Route Traffic| CA["🛡️ Cloud Armor<br/>(SQLi + XSS Protection)"]
+
+    CA -->|Filter & Forward| MIG["📦 Managed Instance Group<br/>(Regional - Multi-Zone)"]
+
+    subgraph "ecommerce-vpc"
+        subgraph "us-central1 (3 Zones)"
+            MIG --> Zone_A["Zone A<br/>Instance 1-2<br/>Ubuntu 22.04 LTS<br/>Nginx + App"]
+            MIG --> Zone_B["Zone B<br/>Instance 1-2<br/>Ubuntu 22.04 LTS<br/>Nginx + App"]
+            MIG --> Zone_C["Zone C<br/>Instance 1-2<br/>Ubuntu 22.04 LTS<br/>Nginx + App"]
+        end
+
+        subgraph "Firewall Rules"
+            FR1["GLB IPs: 130.211.0.0/22, 35.191.0.0/16<br/>(Ports: 80, 443, 8080)"]
+            FR2["Internal: 10.0.1.0/24<br/>(All Ports)"]
+            FR3["IAP SSH: 35.235.240.0/20<br/>(Port 22)"]
+        end
+
+        Zone_A ==>|SQL Connections| PSC["🔒 Private Service<br/>Connection"]
+        Zone_B ==>|SQL Connections| PSC
+        Zone_C ==>|SQL Connections| PSC
+    end
+
+    PSC -->|Private IP| SQL_Primary["🗄️ Cloud SQL Primary<br/>(PostgreSQL 15)<br/>Regional HA<br/>us-central1"]
+
+    SQL_Primary -.->|Async Replication<br/>Cross-Region| SQL_Replica["🗄️ Cloud SQL Replica<br/>(Read-Only)<br/>us-east1<br/>(DR)"]
+
+    SQL_Primary -->|Automated Backups<br/>Point-in-Time Recovery| Backups["💾 Cloud Backups<br/>(7-day retention)<br/>(30 snapshots)"]
+
+    subgraph "Monitoring & Observability"
+        Ops_Agent["📊 Ops Agent<br/>(Metrics + Logs)"]
+        Monitoring["📈 Cloud Monitoring<br/>(SLI: P99 < 500ms<br/>Error Rate < 1%)"]
+        Logging["📝 Cloud Logging<br/>(Syslog, App Logs)"]
+    end
+
+    Zone_A -.->|Metrics| Ops_Agent
+    Zone_B -.->|Metrics| Ops_Agent
+    Zone_C -.->|Metrics| Ops_Agent
+    
+    Ops_Agent -.-> Monitoring
+    Ops_Agent -.-> Logging
+
+    subgraph "Security & Identity"
+        IAM["🔐 IAM - Service Account<br/>Roles:<br/>• cloudsql.client<br/>• logging.logWriter<br/>• monitoring.metricWriter"]
+    end
+
+    Zone_A -.->|Uses| IAM
+    Zone_B -.->|Uses| IAM
+    Zone_C -.->|Uses| IAM
+
+    subgraph "Autoscaling"
+        Autoscaler["⚡ Autoscaler<br/>Min: 3 Instances<br/>Max: 6 Instances<br/>CPU Target: 70%<br/>Scale-in Control: 1 inst/10 min"]
+    end
+
+    MIG -.->|Managed by| Autoscaler
+
+    style GLB fill:#4285F4,stroke:#1a73e8,color:#fff
+    style CA fill:#EA4335,stroke:#c5221f,color:#fff
+    style MIG fill:#34A853,stroke:#137333,color:#fff
+    style SQL_Primary fill:#FBBC04,stroke:#9c6c00,color:#000
+    style SQL_Replica fill:#FBBC04,stroke:#9c6c00,color:#000
+    style Monitoring fill:#9C27B0,stroke:#6a1b9a,color:#fff
+    style Logging fill:#9C27B0,stroke:#6a1b9a,color:#fff
+    style IAM fill:#FF6F00,stroke:#e65100,color:#fff
+    style Autoscaler fill:#00BCD4,stroke:#00838f,color:#fff
