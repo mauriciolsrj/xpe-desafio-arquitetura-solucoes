@@ -9,6 +9,7 @@ Este diretório contém os artefatos para provisionamento da infraestrutura PaaS
 ### 1. Cloud SQL - PostgreSQL 15 (Banco de Dados Gerenciado)
 
 **Especificações:**
+- Serviço: Cloud SQL
 - Motor: PostgreSQL 15
 - Tier: db-custom-4-16384 (16 vCPU, 16 GB RAM)
 - Armazenamento: 100 GB SSD com autoresize até 500 GB
@@ -40,7 +41,8 @@ Este diretório contém os artefatos para provisionamento da infraestrutura PaaS
 ### 5. Conexão Segura (Private Service Connect)
 
 **Configuração:**
-- Tipo: Private Service Connection (sem IP público)
+- Serviço: Private Service Connect
+- Tipo: Conexão privada (sem IP público)
 - Acesso: Apenas via VPC interna
 - Criptografia: SSL/TLS obrigatório
 - Isolamento: Completamente privado

@@ -7,8 +7,7 @@ Este diretório contém o diagrama da arquitetura de solução em nuvem que aten
 ## Artefato: Desenho da Arquitetura de Soluções
 
 ### Arquivos
-- **arquitetura-solucao.drawio** - Diagrama da arquitetura completa em formato Draw.io
-- **arquitetura-solucao.svg** - Diagrama em formato vetorial
+- **arquitetura-solucao.mmd** - Diagrama da arquitetura completa em formato Mermaid
 
 ### Componentes Inclusos no Diagrama
 
@@ -18,7 +17,7 @@ Este diretório contém o diagrama da arquitetura de solução em nuvem que aten
    - Zone C (us-central1-c)
 
 2. **Balanceamento de Carga**
-   - Global External Application Load Balancer
+   - Cloud Load Balancing
    - Distribuição de tráfego HTTP/HTTPS
    - Health checks configurados
 
@@ -36,7 +35,7 @@ Este diretório contém o diagrama da arquitetura de solução em nuvem que aten
    - Read Replica em outra região para DR (us-east1)
    - Backups automáticos com PITR (7 dias)
 
-5. **Controle de Acesso (IAM)**
+5. **Controle de Acesso (Cloud IAM)**
    - Service Account para VMs
    - Roles configuradas:
      - cloudsql.client (acesso ao banco)
@@ -48,6 +47,7 @@ Este diretório contém o diagrama da arquitetura de solução em nuvem que aten
    - Firewall rules restringindo acesso
    - VPC privada com Cloud NAT
    - Failover automático do banco de dados
+   - Cloud IAM para controle de acesso
 
 7. **Monitoramento e Observabilidade**
    - Cloud Monitoring para métricas

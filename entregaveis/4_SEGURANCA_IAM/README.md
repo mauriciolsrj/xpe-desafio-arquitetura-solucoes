@@ -6,15 +6,16 @@ Este diretório contém os artefatos para implementação de segurança e contro
 
 ## Componentes de Segurança
 
-### 1. Service Account para VMs
+### 1. Controle de Acesso (Cloud IAM)
 
 **Service Account:**
+- Serviço: Cloud IAM
 - Nome: `ecommerce-vm-sa`
 - Propósito: Identidade para VMs acessarem recursos GCP
 - Princípio do Menor Privilégio: Apenas roles necessárias
 
 
-### 2. Configuração de Roles (Papéis) do IAM
+### 2. Configuração de Roles (Papéis) do Cloud IAM
 
 **Roles Configuradas:**
 
@@ -51,7 +52,7 @@ DENY (Everything Else):
   Default Rule (implícito)
 
 
-### 4. Cloud Armor - Proteção contra Ataques
+### 4. Proteção contra Ataques (Cloud Armor)
 
 **Proteção Implementada:**
 
@@ -71,10 +72,11 @@ DENY (Everything Else):
 - VPC Flow Logs: Habilitados para auditoria
 
 
-### 6. Private Service Connection
+### 6. Private Service Connect
 
 **Database Connection:**
 
+- Serviço: Private Service Connect
 - Sem IP público para o banco de dados
 - Conecta via network peering privado
 - SSL/TLS: Obrigatório em todas as conexões
@@ -88,5 +90,6 @@ DENY (Everything Else):
 ✓ Proteger contra SQLi, XSS e outros ataques (Cloud Armor)  
 ✓ Conexão segura ao banco de dados (Private Service Connect)  
 ✓ SSL/TLS obrigatório em todas as conexões  
+✓ Auditoria de todas as ações via Cloud Audit Logs  
 ✓ VPC privada para isolamento de rede  
 ✓ Auditoria de todas as ações via Cloud Audit Logs  

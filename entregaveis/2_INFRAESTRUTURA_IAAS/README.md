@@ -14,11 +14,11 @@ Nas zonas: us-central1-a, us-central1-b, us-central1-c
 - Imagem: Ubuntu 22.04 LTS Minimal
 - Tipo de Máquina: e2-standard-2
 - Escalonamento: 3-6 instâncias
-- Managed Instance Group (MIG) com distribuição regional
+- Managed Instance Group com distribuição regional
 
 ### 2. Balanceador de Carga
 
-Global External Application Load Balancer
+Cloud Load Balancing
 
 **Especificações:**
 - Tipo: HTTP/HTTPS
@@ -28,7 +28,7 @@ Global External Application Load Balancer
 
 ### 3. Escalabilidade Automática (Autoscaling)
 
-Managed Instance Group com políticas de autoscaling
+Managed Instance Group com políticas de Autoscaling
 
 **Especificações:**
 - Mínimo: 3 instâncias
@@ -36,7 +36,17 @@ Managed Instance Group com políticas de autoscaling
 - Trigger: CPU Utilization > 70%
 - Scale-in Control: Máximo 1 instância a cada 10 minutos
 
-### 4. Rede e Firewall
+### 4. Proteção contra Ataques
+
+Cloud Armor para proteção contra SQLi, XSS e ataques de protocolo
+
+**Especificações:**
+- SQL Injection (SQLi) prevention
+- Cross-Site Scripting (XSS) prevention
+- Protocol attack protection
+- Scanner detection
+
+### 5. Rede e Firewall
 
 VPC privada com Cloud NAT para acesso externo
 
@@ -56,13 +66,14 @@ VPC privada com Cloud NAT para acesso externo
 ✓ Implementar escalonamento automático (3-6 instâncias)  
 ✓ Utilizar imagens Linux (Ubuntu 22.04 LTS)  
 ✓ Limitar acesso via firewall para origens autorizadas  
+✓ Implementar proteção contra ataques com Cloud Armor  
 
 ---
 
 **Autor:** Maurício Santos  
 **Data:** Fevereiro 2026
 
-1. Instala Google Cloud Ops Agent para monitoramento
+1. Instala Ops Agent para monitoramento
 2. Instala Nginx como reverse proxy
 3. Instala Node.js como runtime
 4. Configura health check endpoint (/health)

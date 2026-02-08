@@ -10,8 +10,7 @@ Este diretório contém todos os artefatos solicitados para o Desafio Final do B
 entregaveis/
 ├── 1_DIAGRAMA_ARQUITETURA/
 │   ├── README.md
-│   ├── arquitetura-solucao.drawio
-│   └── arquitetura-solucao.svg
+│   └── arquitetura-solucao.mmd
 │
 ├── 2_INFRAESTRUTURA_IAAS/
 │   └── README.md

@@ -19,7 +19,7 @@ Este diretório contém os artefatos para implementação de monitoramento compl
 | Request Latency | Load Balancer | SLI: P99 < 500ms |
 | HTTP Status Distribution | Load Balancer | SLI: Error Rate < 1% |
 | Database Connections | Cloud SQL | Detecta esgotamento |
-| SQL Query Performance | CloudSQL | Monitora queries lentas |
+| SQL Query Performance | Cloud SQL | Monitora queries lentas |
 
 
 ### 2. Cloud Logging - Coleta de Logs
@@ -106,6 +106,7 @@ Gráficos Inclusos:
 - Reinicia com a VM
 
 **Funcionalidades:**
+- Instalação automática via startup script
 - Coleta de métricas do SO (CPU, Memória, Disco, Network)
 - Coleta de logs de sistema
 - Coleta de logs de aplicação (JSON parsing automático)
