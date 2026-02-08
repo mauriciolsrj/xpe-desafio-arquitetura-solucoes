@@ -1,0 +1,72 @@
+# Infraestrutura PaaS - Provisionamento do Banco de Dados
+
+## Descrição
+
+Este diretório contém os artefatos para provisionamento da infraestrutura PaaS (Platform as a Service), focado em banco de dados gerenciado, alta disponibilidade, backups e disaster recovery.
+
+## Componentes PaaS
+
+### 1. Cloud SQL - PostgreSQL 15 (Banco de Dados Gerenciado)
+
+**Especificações:**
+- Motor: PostgreSQL 15
+- Tier: db-custom-4-16384 (16 vCPU, 16 GB RAM)
+- Armazenamento: 100 GB SSD com autoresize até 500 GB
+
+### 2. Alta Disponibilidade (HA) Regional
+
+**Configuração:**
+- Modo: Regional HA com Standby automático
+- Primary: us-central1
+- Standby: Mesma região, zona diferente (automático)
+- Failover: Automático em caso de falha do primary
+
+### 3. Replicação Cross-Region para Disaster Recovery
+
+**Configuração:**
+- Tipo: Read-Only Replica
+- Localização: us-east1 (outra região)
+- Propósito: Disaster Recovery (DR)
+- Replicação: Assíncrona
+
+### 4. Backups e PITR (Point-in-Time Recovery)
+
+**Configuração:**
+- Tipo: Backups automáticos
+- Frequência: Diária
+- Retenção: 30 snapshots
+- PITR: Até 7 dias no passado
+
+### 5. Conexão Segura (Private Service Connect)
+
+**Configuração:**
+- Tipo: Private Service Connection (sem IP público)
+- Acesso: Apenas via VPC interna
+- Criptografia: SSL/TLS obrigatório
+- Isolamento: Completamente privado
+
+## Requisitos Atendidos
+
+✓ Provisionar banco de dados gerenciado (Cloud SQL PostgreSQL)  
+✓ Habilitar replicação multi-regional para DR  
+✓ Configurar backups automáticos  
+✓ Implementar PITR (Point-in-Time Recovery)  
+✓ Alta disponibilidade com failover automático  
+✓ Segurança com SSL/TLS e Private Service Connect  
+
+---
+
+**Autor:** Maurício Santos  
+**Data:** Fevereiro 2026
+
+
+## Recursos Adicionais
+
+- [Cloud SQL Documentation](https://cloud.google.com/sql/docs)
+- [Cloud SQL Best Practices](https://cloud.google.com/sql/docs/postgres/best-practices)
+- [PostgreSQL 15 Documentation](https://www.postgresql.org/docs/15/)
+
+---
+
+**Autor:** Maurício Santos  
+**Data:** Fevereiro 2026
