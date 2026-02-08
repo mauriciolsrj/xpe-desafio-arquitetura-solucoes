@@ -1,4 +1,4 @@
-# Pos - Bootcamp Arquiteto de Soluções
+# Bootcamp Arquiteto de Soluções
 
 Artefatos e documentação do Desafio Final - Bootcamp Arquiteto de Soluções.
 
