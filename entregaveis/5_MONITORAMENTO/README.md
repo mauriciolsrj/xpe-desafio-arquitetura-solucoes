@@ -41,6 +41,7 @@ Cloud Logs:
   Cloud Audit Logs         - Mudanças de infraestrutura
   VPC Flow Logs            - Tráfego de rede
   Cloud SQL Activity Logs  - Operações do banco de dados
+```
 
 
 ### 3. Service Level Indicators (SLIs)
@@ -96,6 +97,7 @@ Gráficos Inclusos:
   6. Database Connection Status
   7. Network Traffic (in/out)
   8. Disk Usage
+```
 
 
 ### 6. Ops Agent - Coleta Automática
@@ -112,13 +114,7 @@ Gráficos Inclusos:
 - Coleta de logs de aplicação (JSON parsing automático)
 - Envio para Cloud Monitoring e Cloud Logging
 
-## Requisitos de Monitoramento Atendidos
+---
 
-✓ Habilitar logs e monitoramento para desempenho, segurança e falhas  
-✓ Cloud Logging para coleta de logs (system, app, cloud)  
-✓ Cloud Monitoring para coleta de métricas  
-✓ SLIs definido (P99 Latency, Error Rate)  
-✓ Alertas configurados para anomalias  
-✓ Dashboard customizado com gráficos principais  
-✓ Ops Agent instalado em todas as VMs  
-✓ Notificações via múltiplos canais  
+**Autor:** Maurício Santos  
+**Data:** 7 de fevereiro de 2026

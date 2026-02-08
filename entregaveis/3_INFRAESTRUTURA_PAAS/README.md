@@ -47,28 +47,7 @@ Este diretório contém os artefatos para provisionamento da infraestrutura PaaS
 - Criptografia: SSL/TLS obrigatório
 - Isolamento: Completamente privado
 
-## Requisitos Atendidos
-
-✓ Provisionar banco de dados gerenciado (Cloud SQL PostgreSQL)  
-✓ Habilitar replicação multi-regional para DR  
-✓ Configurar backups automáticos  
-✓ Implementar PITR (Point-in-Time Recovery)  
-✓ Alta disponibilidade com failover automático  
-✓ Segurança com SSL/TLS e Private Service Connect  
-
 ---
 
 **Autor:** Maurício Santos  
-**Data:** Fevereiro 2026
-
-
-## Recursos Adicionais
-
-- [Cloud SQL Documentation](https://cloud.google.com/sql/docs)
-- [Cloud SQL Best Practices](https://cloud.google.com/sql/docs/postgres/best-practices)
-- [PostgreSQL 15 Documentation](https://www.postgresql.org/docs/15/)
-
----
-
-**Autor:** Maurício Santos  
-**Data:** Fevereiro 2026
+**Data:** 7 de fevereiro de 2026

@@ -59,37 +59,8 @@ VPC privada com Cloud NAT para acesso externo
   - Internal: 10.0.1.0/24 (all ports)
   - IAP SSH: 35.235.240.0/20 (port 22)
 
-## Requisitos Atendidos
-
-✓ Provisionar máquinas virtuais em múltiplas zonas de disponibilidade  
-✓ Configurar balanceador de carga para distribuir tráfego  
-✓ Implementar escalonamento automático (3-6 instâncias)  
-✓ Utilizar imagens Linux (Ubuntu 22.04 LTS)  
-✓ Limitar acesso via firewall para origens autorizadas  
-✓ Implementar proteção contra ataques com Cloud Armor  
-
 ---
 
 **Autor:** Maurício Santos  
-**Data:** Fevereiro 2026
-
-1. Instala Ops Agent para monitoramento
-2. Instala Nginx como reverse proxy
-3. Instala Node.js como runtime
-4. Configura health check endpoint (/health)
-5. Configura logging para Cloud Logging
-6. Inicia coleta de métricas
-
-## Requisitos Atendidos
-
-✓ Provisionar máquinas virtuais em múltiplas zonas de disponibilidade  
-✓ Configurar balanceador de carga para distribuir tráfego  
-✓ Implementar escalonamento automático (3-6 instâncias)  
-✓ Utilizar imagens Linux (Ubuntu 22.04 LTS)  
-✓ Limitar acesso via firewall para origens autorizadas  
-
----
-
-**Autor:** Maurício Santos  
-**Data:** Fevereiro 2026
+**Data:** 7 de fevereiro de 2026
 

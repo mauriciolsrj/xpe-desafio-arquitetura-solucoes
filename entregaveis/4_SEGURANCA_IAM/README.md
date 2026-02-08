@@ -50,6 +50,7 @@ ALLOW (IAP SSH):
 
 DENY (Everything Else):
   Default Rule (implícito)
+```
 
 
 ### 4. Proteção contra Ataques (Cloud Armor)
@@ -82,14 +83,7 @@ DENY (Everything Else):
 - SSL/TLS: Obrigatório em todas as conexões
 - Isolamento total da internet pública
 
-## Requisitos de Segurança Atendidos
+---
 
-✓ Configurar políticas de IAM para controlar acesso das VMs ao banco de dados  
-✓ Limitar acesso via firewall para origens autorizadas (GLB, IAP)  
-✓ Implementar princípio do menor privilégio  
-✓ Proteger contra SQLi, XSS e outros ataques (Cloud Armor)  
-✓ Conexão segura ao banco de dados (Private Service Connect)  
-✓ SSL/TLS obrigatório em todas as conexões  
-✓ Auditoria de todas as ações via Cloud Audit Logs  
-✓ VPC privada para isolamento de rede  
-✓ Auditoria de todas as ações via Cloud Audit Logs  
+**Autor:** Maurício Santos  
+**Data:** 7 de fevereiro de 2026

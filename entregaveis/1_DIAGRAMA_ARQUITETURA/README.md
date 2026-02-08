@@ -58,6 +58,6 @@ Este diretório contém o diagrama da arquitetura de solução em nuvem que aten
 ---
 
 **Autor:** Maurício Santos  
-**Data:** Fevereiro 2026
+**Data:** 7 de fevereiro de 2026
 
 

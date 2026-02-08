@@ -3,11 +3,11 @@ graph TB
         Users["Usuários / Clientes"]
     end
 
-    Users -->|Requisições HTTPS| GLB["🌐 Balanceador de Carga<br/>Global Externo<br/>(GCP: Cloud Load Balancing)<br/>(130.211.0.0/22, 35.191.0.0/16)"]
+    Users -->|Requisições HTTPS| GLB["Balanceador de Carga<br/>Global Externo<br/>(GCP: Cloud Load Balancing)<br/>(130.211.0.0/22, 35.191.0.0/16)"]
 
-    GLB -->|Rota Tráfego| CA["🛡️ Proteção contra Ataques<br/>(GCP: Cloud Armor)<br/>(SQLi + XSS Protection)"]
+    GLB -->|Rota Tráfego| CA["Proteção contra Ataques<br/>(GCP: Cloud Armor)<br/>(SQLi + XSS Protection)"]
 
-    CA -->|Filtra & Encaminha| MIG["📦 Grupo de Instâncias<br/>Gerenciadas Regional<br/>(GCP: Managed Instance Group)<br/>(Multi-Zona)"]
+    CA -->|Filtra & Encaminha| MIG["Grupo de Instâncias<br/>Gerenciadas Regional<br/>(GCP: Managed Instance Group)<br/>(Multi-Zona)"]
 
     subgraph "vpc-ecommerce"
         subgraph "us-central1 (3 Zonas)"
@@ -22,16 +22,16 @@ graph TB
             FR3["IAP SSH: 35.235.240.0/20<br/>(Porta 22)"]
         end
 
-        Zone_A ==>|Conexões ao Banco| PSC["🔒 Conexão de Serviço<br/>Privada<br/>(GCP: Private Service Connect)"]
+        Zone_A ==>|Conexões ao Banco| PSC["Conexão de Serviço<br/>Privada<br/>(GCP: Private Service Connect)"]
         Zone_B ==>|Conexões ao Banco| PSC
         Zone_C ==>|Conexões ao Banco| PSC
     end
 
-    PSC -->|IP Privado| SQL_Primary["🗄️ Banco de Dados Primário<br/>(GCP: Cloud SQL)<br/>PostgreSQL 15<br/>Alta Disponibilidade Regional<br/>us-central1"]
+    PSC -->|IP Privado| SQL_Primary["Banco de Dados Primário<br/>(GCP: Cloud SQL)<br/>PostgreSQL 15<br/>Alta Disponibilidade Regional<br/>us-central1"]
 
-    SQL_Primary -.->|Replicação Assíncrona<br/>Cross-Region| SQL_Replica["🗄️ Banco de Dados Replica<br/>(GCP: Cloud SQL)<br/>(Somente Leitura)<br/>us-east1<br/>(Recuperação de Desastres)"]
+    SQL_Primary -.->|Replicação Assíncrona<br/>Cross-Region| SQL_Replica["Banco de Dados Replica<br/>(GCP: Cloud SQL)<br/>(Somente Leitura)<br/>us-east1<br/>(Recuperação de Desastres)"]
 
-    SQL_Primary -->|Backups Automáticos<br/>Recuperação Point-in-Time| Backups["💾 Backups Automáticos<br/>(GCP: Cloud SQL Backups)<br/>(Retenção: 7 dias)<br/>(30 snapshots)"]
+    SQL_Primary -->|Backups Automáticos<br/>Recuperação Point-in-Time| Backups["Backups Automáticos<br/>(GCP: Cloud SQL Backups)<br/>(Retenção: 7 dias)<br/>(30 snapshots)"]
 
     subgraph "Monitoramento & Observabilidade"
         Ops_Agent["Agente Ops<br/>(GCP: Ops Agent)<br/>(Métricas + Logs)"]
