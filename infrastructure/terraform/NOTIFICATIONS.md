@@ -4,7 +4,7 @@
 
 Os alertas definidos em `monitoring.tf` requerem configuração de canais de notificação (notification channels) para funcionar. Siga as instruções abaixo.
 
-## 📧 Canais Suportados
+## Canais Suportados
 
 - **Email**
 - **Slack**
@@ -12,7 +12,7 @@ Os alertas definidos em `monitoring.tf` requerem configuração de canais de not
 - **Webhooks HTTP**
 - **SMS (em regiões selecionadas)**
 
-## 1️⃣ Via Cloud Console (Mais Fácil)
+## 1. Via Cloud Console (Mais Fácil)
 
 ### Passo 1: Acessar Cloud Monitoring
 
@@ -45,7 +45,7 @@ Cada canal criado terá um ID similar a:
 projects/seu-projeto/notificationChannels/123456789
 ```
 
-## 2️⃣ Via Terraform (Recomendado para IaC)
+## 2. Via Terraform (Recomendado para IaC)
 
 Adicione este bloco ao arquivo `monitoring.tf`:
 
@@ -136,7 +136,7 @@ resource "google_monitoring_alert_policy" "error_rate" {
 }
 ```
 
-## 3️⃣ Testando Notificações
+## 3. Testando Notificações
 
 ### Via gcloud CLI
 
@@ -277,7 +277,7 @@ gcloud logging read \
 gcloud alpha monitoring channels list --format=json | jq '.[] | select(.displayName=="seu-canal")'
 ```
 
-## 📝 Exemplo Completo (terraform.tfvars)
+## Exemplo Completo (terraform.tfvars)
 
 ```hcl
 project_id = "seu-projeto"
@@ -286,7 +286,7 @@ notification_email = "alerts@company.com"
 slack_channel = "#prod-alerts"
 ```
 
-## 🔔 Alertas Recomendados Adicionais
+## Alertas Recomendados Adicionais
 
 Além dos 2 alertas principais, considere adicionar:
 
@@ -322,7 +322,7 @@ resource "google_monitoring_alert_policy" "mig_scaling_issues" {
 }
 ```
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### Notificações não chegando
 

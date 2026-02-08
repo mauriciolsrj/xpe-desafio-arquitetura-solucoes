@@ -1,6 +1,6 @@
 graph TD
     subgraph "Normal Operation"
-        Normal["✅ All Zones Healthy<br/>Zone A, B, C Running<br/>3-6 Instances Active<br/>Primary DB: us-central1"]
+        Normal["All Zones Healthy<br/>Zone A, B, C Running<br/>3-6 Instances Active<br/>Primary DB: us-central1"]
         
         GLB1["Global Load Balancer<br/>Distributing Traffic"]
         MIG1["MIG with 3+ Instances<br/>Across 3 Zones"]
@@ -14,7 +14,7 @@ graph TD
     Normal -->|Zone Failure| Failure
 
     subgraph "Zone Failure Scenario"
-        Failure["⚠️ Zone A Becomes Unavailable<br/>(Network Partition / Hardware Failure)"]
+        Failure["Zone A Becomes Unavailable<br/>(Network Partition / Hardware Failure)"]
         
         Detection["Health Check Detects Failure<br/>Load Balancer stops sending<br/>traffic to Zone A"]
         
@@ -32,15 +32,15 @@ graph TD
     Failure -->|Autoscaling Triggered| Scaling
 
     subgraph "Autoscaling Response"
-        Scaling["⚡ Autoscaler Detects<br/>Reduced Capacity"]
+        Scaling["Autoscaler Detects<br/>Reduced Capacity"]
         
         Scale_Up["Scale Up Action:<br/>Add Instances in Zone B or C<br/>Target: Return to min 3 instances"]
         
-        New_Instances["🚀 New Instances Launch<br/>in Healthy Zones<br/>(Ubuntu 22.04 + Startup Script)"]
+        New_Instances["New Instances Launch<br/>in Healthy Zones<br/>(Ubuntu 22.04 + Startup Script)"]
         
         Health_Check_New["Health Checks Pass<br/>New Instances Join MIG"]
         
-        Capacity_Restored["✅ Capacity Restored<br/>Back to Target Count"]
+        Capacity_Restored["Capacity Restored<br/>Back to Target Count"]
         
         Scaling --> Scale_Up
         Scale_Up --> New_Instances
@@ -51,7 +51,7 @@ graph TD
     Scaling -->|Database Layer| DB_Failover
 
     subgraph "Database Resilience"
-        DB_Failover["🗄️ Cloud SQL High Availability<br/>Regional HA Enabled"]
+        DB_Failover["Cloud SQL High Availability<br/>Regional HA Enabled"]
         
         DB_Standby["Standby Instance<br/>(Same Zone or Alternate)<br/>Synchronized"]
         
@@ -70,7 +70,7 @@ graph TD
     Capacity_Restored -->|Zone Recovery| Recovery
 
     subgraph "Zone Recovery"
-        Recovery["🔧 Zone A Recovers<br/>Network/Hardware Restored<br/>Instances Boot Up"]
+        Recovery["Zone A Recovers<br/>Network/Hardware Restored<br/>Instances Boot Up"]
         
         Rejoin["Recovered Instances<br/>Pass Health Checks<br/>Rejoin MIG"]
         
@@ -78,7 +78,7 @@ graph TD
         
         Remove_Older["Remove Older Instances<br/>(Scale-in Control<br/>1 instance / 10 minutes)"]
         
-        Back_Normal["✅ Return to Normal State<br/>Balanced Across 3 Zones<br/>3-6 Instances"]
+        Back_Normal["Return to Normal State<br/>Balanced Across 3 Zones<br/>3-6 Instances"]
         
         Recovery --> Rejoin
         Rejoin --> Scale_Down

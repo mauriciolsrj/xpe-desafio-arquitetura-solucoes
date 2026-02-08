@@ -1,6 +1,6 @@
 # Guia de Operação e Troubleshooting
 
-## 🚀 Operações Comuns
+## Operações Comuns
 
 ### 1. Scale Manual da aplicação
 
@@ -66,7 +66,7 @@ gcloud compute instances describe INSTANCE_NAME --zone=ZONE
 gcloud compute instances get-serial-port-output INSTANCE_NAME --zone=ZONE
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Problema: Instâncias não passam em health check
 
@@ -241,7 +241,7 @@ gcloud alpha monitoring channels send-verification-code \
 - **Email não validado:** Confirmar verificação de email no Cloud Console
 - **Permissões faltando:** Adicionar `roles/monitoring.alertPolicyEditor`
 
-## 📊 Monitoramento Proativo
+## Monitoramento Proativo
 
 ### Dashboards Recomendados
 
@@ -282,7 +282,7 @@ gcloud logging read \
   --limit=100
 ```
 
-## 🔄 Procedimentos de Manutenção
+## Procedimentos de Manutenção
 
 ### Backup Manual
 
@@ -327,7 +327,7 @@ gcloud compute snapshots list --filter="creationTimestamp<'2023-06-01'" \
   --format=table --limit=50
 ```
 
-## 📈 Capacity Planning
+## Capacity Planning
 
 ### Quando aumentar capacidade
 
@@ -361,7 +361,7 @@ gcloud sql instances patch ecommerce-postgres-primary \
   --database-flags cloudsql-instance-max-allocated-storage=500
 ```
 
-## 🔐 Segurança
+## Segurança
 
 ### Rotação de Credenciais
 

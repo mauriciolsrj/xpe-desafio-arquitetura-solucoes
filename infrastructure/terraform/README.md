@@ -2,7 +2,7 @@
 
 Este diretório contém a Infraestrutura como Código (IaC) completa para uma arquitetura de e-commerce de alta disponibilidade no Google Cloud Platform.
 
-## 📋 Pré-requisitos
+## Pré-requisitos
 
 - **Google Cloud Project** com billing habilitado
 - **Terraform** >= 1.0
@@ -35,7 +35,7 @@ exec -l $SHELL
 gcloud init
 ```
 
-## 🏗️ Estrutura de Arquivos
+## Estrutura de Arquivos
 
 ```
 terraform/
@@ -59,7 +59,7 @@ diagrams/
 └── resilience-flow.mmd         # Diagrama de fluxo de resiliência
 ```
 
-## 🚀 Deployment Steps
+## Deployment Steps
 
 ### 1. Configurar Credenciais do GCP
 
@@ -146,7 +146,7 @@ terraform output load_balancer_ip
 terraform output deployment_summary
 ```
 
-## 🔑 Outputs Importantes
+## Outputs Importantes
 
 Após o deployment bem-sucedido, os seguintes outputs estarão disponíveis:
 
@@ -158,7 +158,7 @@ sql_instance_connection_name  # Connection string para Cloud SQL
 service_account_email     # Email da Service Account das VMs
 ```
 
-## 🛡️ Segurança
+## Segurça
 
 ### Cloud Armor Rules Habilitadas
 
@@ -190,7 +190,7 @@ Allow IAP SSH:
 - `roles/logging.logWriter` - Envio de logs
 - `roles/monitoring.metricWriter` - Envio de métricas
 
-## 📊 Monitoramento e Observabilidade
+## Monitoramento e Observabilidade
 
 ### Alertas Configurados
 
@@ -227,7 +227,7 @@ Um dashboard foi criado automaticamente com:
 
 Acesse em: **Cloud Console → Monitoring → Dashboards**
 
-## 🗄️ Database Management
+## Database Management
 
 ### Conexão ao Cloud SQL
 
@@ -285,7 +285,7 @@ gcloud sql backups restore <backup-id> \
   --target-instance=ecommerce-postgres-restore
 ```
 
-## ⚙️ Auto Scaling
+## Auto Scaling
 
 ### Políticas
 
@@ -306,7 +306,7 @@ gcloud logging read \
   "resource.type=gce_instance_group_manager AND jsonPayload.event_type=compute.regionAutoscalers.*"
 ```
 
-## 🌍 Disaster Recovery
+## Disaster Recovery
 
 ### Setup Atual
 
@@ -321,7 +321,7 @@ gcloud logging read \
 gcloud sql instances promote-replica ecommerce-postgres-read-replica-dr
 ```
 
-## 🧹 Cleanup
+## Cleanup
 
 Para destruir todos os recursos:
 
@@ -335,7 +335,7 @@ terraform destroy
 gcloud iam service-accounts delete terraform-sa@$(gcloud config get-value project).iam.gserviceaccount.com
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Erro: "Permission denied"
 
@@ -372,14 +372,14 @@ gcloud sql instances describe ecommerce-postgres-primary \
   --format='value(settings.ipConfiguration.authorizedNetworks[])'
 ```
 
-## 📚 Referências
+## Referências
 
 - [Terraform Google Provider](https://registry.terraform.io/providers/hashicorp/google/latest/docs)
 - [GCP Cloud Armor](https://cloud.google.com/armor/docs)
 - [Cloud SQL Best Practices](https://cloud.google.com/sql/docs/postgres/best-practices)
 - [Ops Agent Documentation](https://cloud.google.com/stackdriver/docs/agent/google-cloud/ops-agent)
 
-## 💡 Próximos Passos
+## Próximos Passos
 
 1. **Integração CI/CD:**
    - Adicionar verificação de Terraform ao GitHub/GitLab
@@ -400,7 +400,7 @@ gcloud sql instances describe ecommerce-postgres-primary \
    - Configurar CI/CD para application deployments
    - Integração com observabilidade avançada
 
-## 📞 Suporte
+## Suporte
 
 Para dúvidas ou problemas:
 1. Revisar logs em **Cloud Logging**
