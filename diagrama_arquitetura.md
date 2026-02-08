@@ -1,0 +1,136 @@
+# Diagrama da Arquitetura de Solução
+
+## Descrição
+
+Este diretório contém o diagrama da arquitetura de solução em nuvem que atende aos requisitos do Bootcamp Arquiteto de Soluções.
+
+## Artefato: Desenho da Arquitetura de Soluções
+
+O diagrama abaixo representa a arquitetura completa da solução:
+
+### Componentes Inclusos no Diagrama
+
+1. **Múltiplas Zonas de Disponibilidade**
+   - Zone A (us-central1-a)
+   - Zone B (us-central1-b)
+   - Zone C (us-central1-c)
+
+2. **Balanceamento de Carga**
+   - Cloud Load Balancing
+   - Distribuição de tráfego HTTP/HTTPS
+   - Health checks configurados
+
+3. **Máquinas Virtuais com Escalonamento Automático**
+   - Managed Instance Group (MIG) Regional
+   - Mínimo: 3 instâncias
+   - Máximo: 6 instâncias
+   - Imagem: Ubuntu 22.04 LTS
+   - CPU Target: 70%
+
+4. **Banco de Dados como Serviço (PaaS)**
+   - Cloud SQL PostgreSQL 15
+   - Regional HA (High Availability)
+   - Standby automático na mesma região
+   - Read Replica em outra região para DR (us-east1)
+   - Backups automáticos com PITR (7 dias)
+
+5. **Controle de Acesso (Cloud IAM)**
+   - Service Account para VMs
+   - Roles configuradas:
+     - cloudsql.client (acesso ao banco)
+     - logging.logWriter (envio de logs)
+     - monitoring.metricWriter (envio de métricas)
+
+6. **Elementos de Segurança e Resiliência**
+   - Cloud Armor para proteção (SQLi, XSS)
+   - Firewall rules restringindo acesso
+   - VPC privada com Cloud NAT
+   - Failover automático do banco de dados
+   - Cloud IAM para controle de acesso
+
+7. **Monitoramento e Observabilidade**
+   - Cloud Monitoring para métricas
+   - Cloud Logging para logs
+   - SLIs e alertas configurados
+   - Dashboard customizado
+
+## Diagrama Visual
+
+```mermaid
+graph TB
+    subgraph "Usuários"
+        Users["Usuários / Clientes"]
+    end
+
+    Users -->|Requisições HTTPS| GLB["Balanceador de Carga<br/>Global Externo<br/>(GCP: Cloud Load Balancing)<br/>(130.211.0.0/22, 35.191.0.0/16)"]
+
+    GLB -->|Rota Tráfego| CA["Proteção contra Ataques<br/>(GCP: Cloud Armor)<br/>(SQLi + XSS Protection)"]
+
+    CA -->|Filtra & Encaminha| MIG["Grupo de Instâncias<br/>Gerenciadas Regional<br/>(GCP: Managed Instance Group)<br/>(Multi-Zona)"]
+
+    subgraph "vpc-ecommerce"
+        subgraph "us-central1 (3 Zonas)"
+            MIG --> Zone_A["Zona A (us-central1-a)<br/>Instâncias 1-2<br/>Ubuntu 22.04 LTS<br/>Nginx + Aplicação"]
+            MIG --> Zone_B["Zona B (us-central1-b)<br/>Instâncias 1-2<br/>Ubuntu 22.04 LTS<br/>Nginx + Aplicação"]
+            MIG --> Zone_C["Zona C (us-central1-c)<br/>Instâncias 1-2<br/>Ubuntu 22.04 LTS<br/>Nginx + Aplicação"]
+        end
+
+        subgraph "Regras de Firewall"
+            FR1["IPs do LB: 130.211.0.0/22, 35.191.0.0/16<br/>(Portas: 80, 443, 8080)"]
+            FR2["Interno: 10.0.1.0/24<br/>(Todas as Portas)"]
+            FR3["IAP SSH: 35.235.240.0/20<br/>(Porta 22)"]
+        end
+
+        Zone_A ==>|Conexões ao Banco| PSC["Conexão de Serviço<br/>Privada<br/>(GCP: Private Service Connect)"]
+        Zone_B ==>|Conexões ao Banco| PSC
+        Zone_C ==>|Conexões ao Banco| PSC
+    end
+
+    PSC -->|IP Privado| SQL_Primary["Banco de Dados Primário<br/>(GCP: Cloud SQL)<br/>PostgreSQL 15<br/>Alta Disponibilidade Regional<br/>us-central1"]
+
+    SQL_Primary -.->|Replicação Assíncrona<br/>Cross-Region| SQL_Replica["Banco de Dados Replica<br/>(GCP: Cloud SQL)<br/>(Somente Leitura)<br/>us-east1<br/>(Recuperação de Desastres)"]
+
+    SQL_Primary -->|Backups Automáticos<br/>Recuperação Point-in-Time| Backups["Backups Automáticos<br/>(GCP: Cloud SQL Backups)<br/>(Retenção: 7 dias)<br/>(30 snapshots)"]
+
+    subgraph "Monitoramento & Observabilidade"
+        Ops_Agent["Agente Ops<br/>(GCP: Ops Agent)<br/>(Métricas + Logs)"]
+        Monitoring["Monitoramento<br/>(GCP: Cloud Monitoring)<br/>(SLI: P99 < 500ms<br/>Taxa de Erro < 1%)"]
+        Logging["Registros<br/>(GCP: Cloud Logging)<br/>(Syslog, Logs App)"]
+    end
+
+    Zone_A -.->|Métricas| Ops_Agent
+    Zone_B -.->|Métricas| Ops_Agent
+    Zone_C -.->|Métricas| Ops_Agent
+    
+    Ops_Agent -.-> Monitoring
+    Ops_Agent -.-> Logging
+
+    subgraph "Segurança & Identidade"
+        IAM["Controle de Acesso<br/>(GCP: Cloud IAM)<br/>Service Account<br/>Roles:<br/>• cloudsql.client<br/>• logging.logWriter<br/>• monitoring.metricWriter"]
+    end
+
+    Zone_A -.->|Utiliza| IAM
+    Zone_B -.->|Utiliza| IAM
+    Zone_C -.->|Utiliza| IAM
+
+    subgraph "Escalonamento Automático"
+        Autoscaler["Auto-escalador<br/>(GCP: Autoscaling)<br/>Mínimo: 3 Instâncias<br/>Máximo: 6 Instâncias<br/>Meta de CPU: 70%<br/>Controle de Scale-down: 1 inst/10 min"]
+    end
+
+    MIG -.->|Gerenciado por| Autoscaler
+
+    style GLB fill:#4285F4,stroke:#1a73e8,color:#fff
+    style CA fill:#EA4335,stroke:#c5221f,color:#fff
+    style MIG fill:#34A853,stroke:#137333,color:#fff
+    style SQL_Primary fill:#FBBC04,stroke:#9c6c00,color:#000
+    style SQL_Replica fill:#FBBC04,stroke:#9c6c00,color:#000
+    style Monitoring fill:#9C27B0,stroke:#6a1b9a,color:#fff
+    style Logging fill:#9C27B0,stroke:#6a1b9a,color:#fff
+    style IAM fill:#FF6F00,stroke:#e65100,color:#fff
+    style Autoscaler fill:#00BCD4,stroke:#00838f,color:#fff
+```
+
+**Autor:** Maurício Santos  
+**Data:** 7 de fevereiro de 2026
+
+

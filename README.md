@@ -4,12 +4,15 @@ Artefatos e documentação do Desafio Final - Bootcamp Arquiteto de Soluções.
 
 ## Arquivos de Entregáveis
 
-- **DIAGRAMA_ARQUITETURA.md** - Diagrama da solução em Mermaid
-- **INFRAESTRUTURA_IAAS.md** - Infraestrutura IaaS (VMs, Load Balancer, Autoscaling)
-- **INFRAESTRUTURA_PAAS.md** - Infraestrutura PaaS (Cloud SQL, HA, DR, Backups)
-- **SEGURANCA_IAM.md** - Segurança e Controle de Acesso (IAM, Firewall, Cloud Armor)
-- **MONITORAMENTO.md** - Monitoramento e Observabilidade (Logs, Métricas, SLIs, Alertas)
-- **arquitetura-solucao.mmd** - Diagrama visual da arquitetura em Mermaid
+- [diagrama_arquitetura.md](diagrama_arquitetura.md) - Diagrama da solução em Mermaid
+- [infraestrutura_iaas.md](infraestrutura_iaas.md) - Infraestrutura IaaS (VMs, Load Balancer, Autoscaling)
+- [infraestrutura_paas.md](infraestrutura_paas.md) - Infraestrutura PaaS (Cloud SQL, HA, DR, Backups)
+- [seguranca_iam.md](seguranca_iam.md) - Segurança e Controle de Acesso (IAM, Firewall, Cloud Armor)
+- [monitoramento.md](monitoramento.md) - Monitoramento e Observabilidade (Logs, Métricas, SLIs, Alertas)
+
+## Diagrama Visual
+
+- [arquitetura-solucao.mmd](arquitetura-solucao.mmd) - Diagrama da arquitetura em Mermaid (visualize em https://mermaid.live)
 
 ---
 
